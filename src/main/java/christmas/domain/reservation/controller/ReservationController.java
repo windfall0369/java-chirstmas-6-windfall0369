@@ -9,9 +9,9 @@ public class ReservationController {
     private final ReservationOutputView outputView = new ReservationOutputView();
 
 
-    public void chooseReservationDate() {
+    public int chooseReservationDate() {
         outputView.printRequestVisitDate();
-        int userVisitDate = inputView.getUserVisitDate();
+        return inputView.getUserVisitDate();
     }
 
 
