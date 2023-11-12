@@ -3,6 +3,8 @@ package christmas.domain.menu.view.outputView;
 import christmas.domain.menu.model.Appetizer;
 import christmas.domain.menu.model.Dessert;
 import christmas.domain.menu.model.MainDish;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class MenuOutputView {
 
@@ -16,6 +18,7 @@ public class MenuOutputView {
     private static final String BEVERAGE = "음료";
     private static final String NEXT_LINE_MARK = "\n";
     private static final String ORDER_MENU_MESSAGE = "주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)";
+    private static final String ORDER_MENU = "주문 메뉴";
 
 
     public void printMenu() {
@@ -24,6 +27,13 @@ public class MenuOutputView {
         printMainDish();
         printDessert();
         printBeverage();
+    }
+
+    public void printUserMenu(Map<String, Integer> userMenu) {
+        System.out.println(DISH_START_FORMAT + ORDER_MENU + DISH_END_FORMAT);
+        for (Entry<String, Integer> userMenuType : userMenu.entrySet()) {
+            System.out.println(userMenuType.getKey() + " " + userMenuType.getValue() + "개");
+        }
     }
 
 
@@ -62,5 +72,4 @@ public class MenuOutputView {
         }
         System.out.println(NEXT_LINE_MARK);
     }
-
 }

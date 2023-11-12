@@ -13,4 +13,8 @@ public class MenuController {
         outputView.printMenu();
         return inputView.getUserMenu();
     }
+
+    public void showMenu(Map<String, Integer> userMenu) {
+        outputView.printUserMenu(userMenu);
+    }
 }
