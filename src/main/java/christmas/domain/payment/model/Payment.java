@@ -1,24 +1,18 @@
 package christmas.domain.payment.model;
 
-import christmas.domain.menu.model.EntireMenu;
-import java.util.Map;
-import java.util.Map.Entry;
-
 public class Payment {
 
-    int orderPrice;
-    int discountPrice;
-    int totalPrice;
+    private int orderPrice; //할인 전 총주문 금액
 
-    public int calculateOrderPrice(Map<EntireMenu, Integer> userMenu) {
-        this.orderPrice = 0;
+    private int weekDiscountPrice;//요일 할인
+    private int dDayDiscountPrice; //디데이 할인
+    private int sumOfDiscountPrice; //(총)할인 금액 = 요일 할인 + 디데이 할인
 
-        for (Entry<EntireMenu, Integer> menu : userMenu.entrySet()) {
-            orderPrice += menu.getKey().getPrice() * menu.getValue();
-        }
-        return orderPrice;
-    }
+    private int eventMenuPrice;//증정 메뉴 금액  =샴페인(25,000)
+    private int totalDiscountPrice; //총 혜택 금액 = sumOfDiscountPrice + eventMenuPrice;
 
-    public int calculateTotalDiscountPrice() {
-    }
+    private int totalOrderPrice;//총주문 금액 = orderPrice - sumOfDiscountPrice
+    private int eventDiscount;//특별 할인
+    private int totalPrice; //할인 후 예상 결제 금액 = totalOrderPrice - eventDiscount;
+
 }

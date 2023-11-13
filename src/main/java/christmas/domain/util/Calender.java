@@ -28,4 +28,33 @@ public enum Calender {
         this.friday = friday;
         this.saturday = saturday;
     }
+
+
+    public int getSunday() {
+        return sunday;
+    }
+
+    public int getMonday() {
+        return monday;
+    }
+
+    public int getTuesday() {
+        return tuesday;
+    }
+
+    public int getWednesday() {
+        return wednesday;
+    }
+
+    public int getThursday() {
+        return thursday;
+    }
+
+    public int getFriday() {
+        return friday;
+    }
+
+    public int getSaturday() {
+        return saturday;
+    }
 }
