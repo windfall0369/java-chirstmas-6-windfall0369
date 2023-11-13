@@ -14,8 +14,4 @@ public class PaymentService {
         }
         return orderPrice;
     }
-
-    public int calculateTotalDiscountPrice() {
-    }
-
 }

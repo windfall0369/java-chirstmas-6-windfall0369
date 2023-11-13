@@ -1,18 +1,18 @@
 package christmas.domain.event.model;
 
-public class EventList {
+public class EventChecker {
 
-    private DdayDiscount dDayDiscount;
-    private WeekDiscount weekDiscount;
     private SpecialMenuGift specialMenuGift;
+    private int dDayDiscount;
+    private WeekDiscount weekDiscount;
     private SpecialDiscount specialDiscount;
 
 
-    public DdayDiscount getdDayDiscount() {
+    public int getdDayDiscount() {
         return dDayDiscount;
     }
 
-    public void setdDayDiscount(DdayDiscount dDayDiscount) {
+    public void setdDayDiscount(int dDayDiscount) {
         this.dDayDiscount = dDayDiscount;
     }
 

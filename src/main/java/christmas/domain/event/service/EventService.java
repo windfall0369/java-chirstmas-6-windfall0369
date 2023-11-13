@@ -1,75 +1,97 @@
 package christmas.domain.event.service;
 
-import christmas.domain.event.model.DdayDiscount;
-import christmas.domain.event.model.EventList;
+import christmas.domain.event.model.EventChecker;
 import christmas.domain.event.model.SpecialDiscount;
 import christmas.domain.event.model.SpecialMenuGift;
 import christmas.domain.event.model.WeekDiscount;
 import christmas.domain.util.Calender;
+import java.util.List;
 
 public class EventService {
 
     private static final int EVENT_MINIMUM_PRICE = 10_000;
     private static final int EVENT_GIFT_MENU_MINIMUM_PRICE = 120_000;
+    private static final int CHRISTMAS_DAY = 25;
 
-    private final EventList events = new EventList();
+    private final EventChecker eventChecker = new EventChecker();
 
-    private void initEventCondition() {
-        events.setSpecialMenuGift(SpecialMenuGift.NOT_PARTICIPATED);
-        events.setdDayDiscount(DdayDiscount.NOT_PARTICIPATED);
-        events.setWeekDiscount(WeekDiscount.NOT_PARTICIPATED);
-        events.setSpecialDiscount(SpecialDiscount.NOT_PARTICIPATED);
+    private void initEventCondition(int dDayCount) {
+        eventChecker.setSpecialMenuGift(SpecialMenuGift.NOT_PARTICIPATED);
+        eventChecker.setdDayDiscount(dDayCount);
+        eventChecker.setWeekDiscount(WeekDiscount.NOT_PARTICIPATED);
+        eventChecker.setSpecialDiscount(SpecialDiscount.NOT_PARTICIPATED);
     }
 
-    public EventList checkEventCondition(int orderPrice, int reservationDate) {
-        initEventCondition();
+    public EventChecker checkEventCondition(int orderPrice, int reservationDate) {
+        int dDayCount = checkDdayDiscount(reservationDate);
+        initEventCondition(dDayCount);
 
         if (checkMinPrice(orderPrice)) {
-            checkSpecialMenuGift(orderPrice);
-            checkDdayDiscount();
-            checkWeekDiscount();
-            checkSpecialDiscount(reservationDate);
-
-            return events;
+            eventChecker.setSpecialMenuGift(checkSpecialMenuGift(orderPrice));
+            eventChecker.setdDayDiscount(dDayCount);
+            eventChecker.setWeekDiscount(checkWeekDiscount(reservationDate));
+            eventChecker.setSpecialDiscount(checkSpecialDiscount(reservationDate));
+            return eventChecker;
         }
-        return events;
+        return eventChecker;
     }
 
     private boolean checkMinPrice(int orderPrice) {
         return orderPrice >= EVENT_MINIMUM_PRICE;
     }
 
-    private void checkSpecialMenuGift(int orderPrice) {
+    private SpecialMenuGift checkSpecialMenuGift(int orderPrice) {
         if (orderPrice >= EVENT_GIFT_MENU_MINIMUM_PRICE) {
-            events.setSpecialMenuGift(SpecialMenuGift.PARTICIPATED);
+            return SpecialMenuGift.PARTICIPATED;
         }
-        events.setSpecialDiscount(SpecialDiscount.NOT_PARTICIPATED);
-
+        return SpecialMenuGift.NOT_PARTICIPATED;
     }
 
-    private void checkDdayDiscount() {
-        events.setdDayDiscount(DdayDiscount.PARTICIPATED);
-
+    private int checkDdayDiscount(int reservationDate) {
+        int dDayCount;
+        if (reservationDate <= CHRISTMAS_DAY) {
+            dDayCount = reservationDate - 1;
+            return dDayCount;
+        }
+        throw new IllegalArgumentException();
     }
 
-    private void checkWeekDiscount() {
-        events.setWeekDiscount(WeekDiscount.PARTICIPATED);
-
+    private WeekDiscount checkWeekDiscount(int reservationDate) {
+        for (Calender day : Calender.values()) {
+            if (reservationDate == day.getFriday() || reservationDate == day.getSaturday()) {
+                return WeekDiscount.WEEKEND;
+            }
+        }
+        return WeekDiscount.WEEKDAY;
     }
 
-    private void checkSpecialDiscount(int reservationDate) {
+    private SpecialDiscount checkSpecialDiscount(int reservationDate) {
         for (Calender day : Calender.values()) {
             if (reservationDate == day.getSunday()
                 || reservationDate == Calender.WEEK_5.getMonday()) {
-                events.setSpecialDiscount(SpecialDiscount.PARTICIPATED);
+                return SpecialDiscount.PARTICIPATED;
             }
         }
+        return SpecialDiscount.NOT_PARTICIPATED;
     }
 
-    public boolean applySpecialMenu(EventList eventList) {
-        if (eventList.getSpecialMenuGift().equals(SpecialMenuGift.PARTICIPATED)) {
+    public boolean applySpecialMenu(EventChecker eventChecker) {
+        if (eventChecker.getSpecialMenuGift().equals(SpecialMenuGift.PARTICIPATED)) {
             return true;
         }
         return false;
+    }
+
+    public int calculateSumOfEventDiscountPrice(List<Integer> discountPrice,
+        WeekDiscount weekDiscount) {
+        int sumOfEventDiscountPrice = 0;
+
+        if (weekDiscount.equals(WeekDiscount.NOT_PARTICIPATED)) {
+            return sumOfEventDiscountPrice;
+        }
+        for (Integer discount : discountPrice) {
+            sumOfEventDiscountPrice += discount;
+        }
+        return sumOfEventDiscountPrice;
     }
 }
