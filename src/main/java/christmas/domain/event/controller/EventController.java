@@ -22,6 +22,8 @@ public class EventController {
     }
 
     public Badge getEventBadge(int eventDiscountPrice) {
-        return eventService.checkBadge(eventDiscountPrice);
+        Badge evnetBadge = eventService.checkBadge(eventDiscountPrice);
+        outputView.printEventBadge(evnetBadge);
+        return evnetBadge;
     }
 }

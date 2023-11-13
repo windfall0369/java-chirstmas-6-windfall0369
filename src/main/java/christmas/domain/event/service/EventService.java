@@ -48,13 +48,14 @@ public class EventService {
     }
 
     private int checkDdayDiscount(int reservationDate) {
-        int dDayCount;
+        int dDayCount = 0;
         if (reservationDate <= CHRISTMAS_DAY) {
             dDayCount = reservationDate - 1;
             return dDayCount;
         }
-        throw new IllegalArgumentException();
+        return dDayCount;
     }
+
 
     private WeekDiscount checkWeekDiscount(int reservationDate) {
         for (Calender day : Calender.values()) {

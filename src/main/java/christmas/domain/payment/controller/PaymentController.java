@@ -32,6 +32,7 @@ public class PaymentController {
     public int getTotalPrice(int eventDiscountPrice, EventChecker events, int orderPrice) {
         int totalPrice = paymentService.calculateTotalPrice(eventDiscountPrice, events, orderPrice);
         payment.setTotalPrice(totalPrice);
+        outputView.printTotalPrice(totalPrice);
         return totalPrice;
     }
 
