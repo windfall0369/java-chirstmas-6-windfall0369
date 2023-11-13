@@ -1,7 +1,6 @@
 package christmas.domain.payment.model;
 
 import christmas.domain.menu.model.EntireMenu;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -11,23 +10,15 @@ public class Payment {
     int discountPrice;
     int totalPrice;
 
-    public Map<EntireMenu, Integer> findMenuName(Map<String, Integer> userMenu) {
-        Map<EntireMenu, Integer> userMenuNameAndAmount = new HashMap<>();
+    public int calculateOrderPrice(Map<EntireMenu, Integer> userMenu) {
+        this.orderPrice = 0;
 
-        for (Entry<String, Integer> menu : userMenu.entrySet()) {
-            EntireMenu menuName = matchMenuName(menu.getKey());
-            Integer amount = menu.getValue();
-            userMenuNameAndAmount.put(menuName, amount);
+        for (Entry<EntireMenu, Integer> menu : userMenu.entrySet()) {
+            orderPrice += menu.getKey().getPrice() * menu.getValue();
         }
-        return userMenuNameAndAmount;
+        return orderPrice;
     }
 
-    private EntireMenu matchMenuName(String menu) {
-        for (EntireMenu menuName : EntireMenu.values()) {
-            if (menu.equals(menuName.getName())) {
-                return menuName;
-            }
-        }
-        return null;
+    public int calculateTotalDiscountPrice() {
     }
 }

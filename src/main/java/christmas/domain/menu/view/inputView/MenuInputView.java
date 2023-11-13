@@ -16,7 +16,7 @@ public class MenuInputView {
     private static final int MENU_AMOUNT_INDEX = 1;
     private static final int INDEX_START = 0;
 
-    public Map<String, Integer> getUserMenu() {
+    public Map<EntireMenu, Integer> getUserMenu() {
         while (true) {
             try {
                 String userInput = Console.readLine();
@@ -27,10 +27,10 @@ public class MenuInputView {
         }
     }
 
-    private Map<String, Integer> validateMenuInput(String userInput) {
+    private Map<EntireMenu, Integer> validateMenuInput(String userInput) {
         checkPaired(userInput);
         int menuType = checkSplit(userInput);
-        Map<String, Integer> userMenu = menuOrderSheet(userInput, menuType);
+        Map<EntireMenu, Integer> userMenu = menuOrderSheet(userInput, menuType);
         checkMenuOrderSheet(userMenu);
         return userMenu;
     }
@@ -51,14 +51,14 @@ public class MenuInputView {
         return menuType;
     }
 
-    private Map<String, Integer> menuOrderSheet(String userInput, int menuType) {
-        Map<String, Integer> menuOrderSheet = new LinkedHashMap<>();
+    private Map<EntireMenu, Integer> menuOrderSheet(String userInput, int menuType) {
+        Map<EntireMenu, Integer> menuOrderSheet = new LinkedHashMap<>();
         List<String> menuSplit = checkOnlyBeverage(Arrays.asList(userInput.split(SPLIT_DELIMITER)));
 
         try {
             for (int index = INDEX_START; index < menuType; index++) {
                 List<String> menuPair = Arrays.asList(menuSplit.get(index).split(PAIR_DELIMITER));
-                String menuName = isMenuName(menuPair.get(MENU_NAME_INDEX));
+                EntireMenu menuName = checkMenuName(menuPair.get(MENU_NAME_INDEX));
                 Integer menuAmount = checkMenuAmount(
                     Integer.valueOf(menuPair.get(MENU_AMOUNT_INDEX)));
                 menuOrderSheet.put(menuName, menuAmount);
@@ -69,7 +69,7 @@ public class MenuInputView {
         }
     }
 
-    private void checkMenuOrderSheet(Map<String, Integer> menuOrderSheet) {
+    private void checkMenuOrderSheet(Map<EntireMenu, Integer> menuOrderSheet) {
         int count = 0;
         for (Integer amount : menuOrderSheet.values()) {
             count += amount;
@@ -100,20 +100,15 @@ public class MenuInputView {
         }
     }
 
-    private String isMenuName(String menuName) {
-        if (checkMenuName(menuName)) {
-            return menuName;
-        }
-        throw new IllegalArgumentException();
-    }
-
-    private boolean checkMenuName(String menuName) {
+    private EntireMenu checkMenuName(String menuName) {
+        EntireMenu menuNameInMenu;
         for (EntireMenu menu : EntireMenu.values()) {
             if (menu.getName().equals(menuName)) {
-                return true;
+                menuNameInMenu = menu;
+                return menuNameInMenu;
             }
         }
-        return false;
+        throw new IllegalArgumentException();
     }
 
     private int checkMenuAmount(Integer menuAmount) {

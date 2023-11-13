@@ -28,10 +28,11 @@ public class MenuOutputView {
         printBeverage();
     }
 
-    public void printUserMenu(Map<String, Integer> userMenu) {
+    public void printUserMenu(Map<EntireMenu, Integer> userMenu) {
         System.out.println(DISH_START_FORMAT + ORDER_MENU + DISH_END_FORMAT);
-        for (Entry<String, Integer> userMenuType : userMenu.entrySet()) {
-            System.out.println(userMenuType.getKey() + " " + userMenuType.getValue() + "개");
+        for (Entry<EntireMenu, Integer> userMenuName : userMenu.entrySet()) {
+            System.out.println(
+                userMenuName.getKey().getName() + " " + userMenuName.getValue() + "개");
         }
     }
 
