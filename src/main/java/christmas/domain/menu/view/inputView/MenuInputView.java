@@ -1,10 +1,8 @@
 package christmas.domain.menu.view.inputView;
 
 import camp.nextstep.edu.missionutils.Console;
-import christmas.domain.menu.model.Appetizer;
-import christmas.domain.menu.model.Beverage;
-import christmas.domain.menu.model.Dessert;
-import christmas.domain.menu.model.MainDish;
+import christmas.domain.menu.model.Course;
+import christmas.domain.menu.model.EntireMenu;
 import christmas.domain.util.message.ErrorMessage;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -96,8 +94,8 @@ public class MenuInputView {
     }
 
     private void checkBeverage(List<String> menuSplit) {
-        for (Beverage beverage : Beverage.values()) {
-            if (menuSplit.get(0).equals(beverage.getName())) {
+        for (EntireMenu menu : EntireMenu.values()) {
+            if (menuSplit.get(0).equals(menu.getName()) && menu.getCourse() == Course.BEVERAGE) {
                 throw new IllegalArgumentException();
             }
         }
@@ -105,58 +103,15 @@ public class MenuInputView {
 
 
     private String isMenuName(String menuName) {
-        boolean inMenuName = false;
-
-        inMenuName = checkMenuNameInAppetizer(menuName);
-        if (inMenuName) {
-            return menuName;
-        }
-        inMenuName = checkMenuNameInBeverage(menuName);
-        if (inMenuName) {
-            return menuName;
-        }
-        inMenuName = checkMenuNameInMainDish(menuName);
-        if (inMenuName) {
-            return menuName;
-        }
-        inMenuName = checkMenuNameInDessert(menuName);
-        if (inMenuName) {
+        if (checkMenuName(menuName)) {
             return menuName;
         }
         throw new IllegalArgumentException();
-
     }
 
-    private boolean checkMenuNameInAppetizer(String menuName) {
-        for (Appetizer appetizer : Appetizer.values()) {
-            if (appetizer.getName().equals(menuName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkMenuNameInBeverage(String menuName) {
-        for (Beverage beverage : Beverage.values()) {
-            if (beverage.getName().equals(menuName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkMenuNameInDessert(String menuName) {
-        for (Dessert dessert : Dessert.values()) {
-            if (dessert.getName().equals(menuName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkMenuNameInMainDish(String menuName) {
-        for (MainDish mainDish : MainDish.values()) {
-            if (mainDish.getName().equals(menuName)) {
+    private boolean checkMenuName(String menuName) {
+        for (EntireMenu menu : EntireMenu.values()) {
+            if (menu.getName().equals(menuName)) {
                 return true;
             }
         }

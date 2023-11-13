@@ -1,8 +1,7 @@
 package christmas.domain.menu.view.outputView;
 
-import christmas.domain.menu.model.Appetizer;
-import christmas.domain.menu.model.Dessert;
-import christmas.domain.menu.model.MainDish;
+import christmas.domain.menu.model.Course;
+import christmas.domain.menu.model.EntireMenu;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -39,36 +38,44 @@ public class MenuOutputView {
 
     private void printAppetizer() {
         System.out.println(DISH_START_FORMAT + APPETIZER + DISH_END_FORMAT);
-        for (Appetizer menu : Appetizer.values()) {
-            System.out.print(
-                menu.getName() + PRICE_START_FORMAT + menu.getPrice() + PRICE_END_FORMAT);
+        for (EntireMenu menu : EntireMenu.values()) {
+            if (menu.getCourse() == Course.APPETIZER) {
+                System.out.println(
+                    menu.getName() + PRICE_START_FORMAT + menu.getPrice() + PRICE_END_FORMAT);
+            }
         }
         System.out.println(NEXT_LINE_MARK);
     }
 
     private void printMainDish() {
         System.out.println(DISH_START_FORMAT + MAIN_DISH + DISH_END_FORMAT);
-        for (MainDish menu : MainDish.values()) {
-            System.out.print(
-                menu.getName() + PRICE_START_FORMAT + menu.getPrice() + PRICE_END_FORMAT);
+        for (EntireMenu menu : EntireMenu.values()) {
+            if (menu.getCourse() == Course.MAIN_DISH) {
+                System.out.println(
+                    menu.getName() + PRICE_START_FORMAT + menu.getPrice() + PRICE_END_FORMAT);
+            }
         }
         System.out.println(NEXT_LINE_MARK);
     }
 
     private void printDessert() {
         System.out.println(DISH_START_FORMAT + DESSERT + DISH_END_FORMAT);
-        for (Dessert menu : Dessert.values()) {
-            System.out.print(
-                menu.getName() + PRICE_START_FORMAT + menu.getPrice() + PRICE_END_FORMAT);
+        for (EntireMenu menu : EntireMenu.values()) {
+            if (menu.getCourse() == Course.DESSERT) {
+                System.out.println(
+                    menu.getName() + PRICE_START_FORMAT + menu.getPrice() + PRICE_END_FORMAT);
+            }
         }
         System.out.println(NEXT_LINE_MARK);
     }
 
     private void printBeverage() {
         System.out.println(DISH_START_FORMAT + BEVERAGE + DISH_END_FORMAT);
-        for (Dessert menu : Dessert.values()) {
-            System.out.print(
-                menu.getName() + PRICE_START_FORMAT + menu.getPrice() + PRICE_END_FORMAT);
+        for (EntireMenu menu : EntireMenu.values()) {
+            if (menu.getCourse() == Course.BEVERAGE) {
+                System.out.println(
+                    menu.getName() + PRICE_START_FORMAT + menu.getPrice() + PRICE_END_FORMAT);
+            }
         }
         System.out.println(NEXT_LINE_MARK);
     }

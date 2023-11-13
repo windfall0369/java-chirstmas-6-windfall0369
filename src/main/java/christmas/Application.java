@@ -16,6 +16,8 @@ public class Application {
         menuController.showMenu(userMenu);
         int orderPrice = paymentController.calculateOrderPrice(userMenu);
 
+        //증정메뉴 구현
+        //메인 문 ㅈㄴ 길어질 거 같은데 어떻게 해결할 것인가 고
 
 
     }
