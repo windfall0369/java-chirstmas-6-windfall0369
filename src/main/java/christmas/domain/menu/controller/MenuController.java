@@ -15,7 +15,7 @@ public class MenuController {
         return inputView.getUserMenu();
     }
 
-    public void showMenu(Map<EntireMenu, Integer> userMenu) {
-        outputView.printUserMenu(userMenu);
+    public void showMenu(Map<EntireMenu, Integer> userMenu, int reservationDate) {
+        outputView.printUserMenu(userMenu, reservationDate);
     }
 }

@@ -21,7 +21,7 @@ public class Application {
         int reservationDate = reservationController.chooseReservationDate(); //고객 예상 방문 날짜
 
         Map<EntireMenu, Integer> userMenu = menuController.chooseMenu(); //고객 주문 메뉴
-        menuController.showMenu(userMenu);
+        menuController.showMenu(userMenu, reservationDate);
 
         int orderPrice = paymentController.getOrderPrice(userMenu); // 할인 전 총 주문 가격
 
@@ -35,6 +35,5 @@ public class Application {
 
         Badge eventBadge = eventController.getEventBadge(eventDiscountPrice); //이벤트 배지
         //영수증 만들기
-
     }
 }
