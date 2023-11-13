@@ -3,16 +3,39 @@ package christmas.domain.payment.model;
 public class Payment {
 
     private int orderPrice; //할인 전 총주문 금액
+    private int totalDiscountPrice; //총 혜택 금액 = weekDiscountPrice + dDayDiscountPrice + eventMenuPrice + specialDiscount;
+    private int eventDiscountPrice;//할인 금액 =weekDiscountPrice + dDayDiscountPrice + specialDiscount;
+    private int totalPrice; //할인 후 예상 결제 금액 = orderPrice - eventDiscount;
 
-    private int weekDiscountPrice;//요일 할인
-    private int dDayDiscountPrice; //디데이 할인
-    private int sumOfDiscountPrice; //(총)할인 금액 = 요일 할인 + 디데이 할인
+    public int getOrderPrice() {
+        return orderPrice;
+    }
 
-    private int eventMenuPrice;//증정 메뉴 금액  =샴페인(25,000)
-    private int totalDiscountPrice; //총 혜택 금액 = sumOfDiscountPrice + eventMenuPrice;
+    public void setOrderPrice(int orderPrice) {
+        this.orderPrice = orderPrice;
+    }
 
-    private int totalOrderPrice;//총주문 금액 = orderPrice - sumOfDiscountPrice
-    private int eventDiscount;//특별 할인
-    private int totalPrice; //할인 후 예상 결제 금액 = totalOrderPrice - eventDiscount;
+    public int getTotalDiscountPrice() {
+        return totalDiscountPrice;
+    }
 
+    public void setTotalDiscountPrice(int totalDiscountPrice) {
+        this.totalDiscountPrice = totalDiscountPrice;
+    }
+
+    public int getEventDiscountPrice() {
+        return eventDiscountPrice;
+    }
+
+    public void setEventDiscountPrice(int eventDiscountPrice) {
+        this.eventDiscountPrice = eventDiscountPrice;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 }

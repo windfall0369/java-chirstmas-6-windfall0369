@@ -1,4 +1,4 @@
-package christmas.domain.event.model;
+package christmas.domain.event.domain;
 
 public class EventChecker {
 

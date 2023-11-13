@@ -1,10 +1,9 @@
 package christmas.domain.event.controller;
 
-import christmas.domain.event.model.EventChecker;
-import christmas.domain.event.model.WeekDiscount;
+import christmas.domain.event.domain.Badge;
+import christmas.domain.event.domain.EventChecker;
 import christmas.domain.event.service.EventService;
 import christmas.domain.event.view.EventOutputView;
-import java.util.List;
 
 public class EventController {
 
@@ -22,10 +21,7 @@ public class EventController {
         return eventChecker;
     }
 
-    public void getEventDiscount(List<Integer> discountPrice, WeekDiscount weekDiscount) {
-        outputView.printAllEventDetail(discountPrice, weekDiscount);
-        int sumOfEventDiscountPrice = eventService.calculateSumOfEventDiscountPrice(discountPrice,
-            weekDiscount);
-        outputView.printAllEventDiscountPrice(sumOfEventDiscountPrice);
+    public Badge getEventBadge(int eventDiscountPrice) {
+        return eventService.checkBadge(eventDiscountPrice);
     }
 }

@@ -41,7 +41,7 @@ public class MenuOutputView {
         System.out.println(DISH_START_FORMAT + APPETIZER + DISH_END_FORMAT);
         for (EntireMenu menu : EntireMenu.values()) {
             if (menu.getCourse() == Course.APPETIZER) {
-                System.out.println(
+                System.out.print(
                     menu.getName() + PRICE_START_FORMAT + menu.getPrice() + PRICE_END_FORMAT);
             }
         }
@@ -52,7 +52,7 @@ public class MenuOutputView {
         System.out.println(DISH_START_FORMAT + MAIN_DISH + DISH_END_FORMAT);
         for (EntireMenu menu : EntireMenu.values()) {
             if (menu.getCourse() == Course.MAIN_DISH) {
-                System.out.println(
+                System.out.print(
                     menu.getName() + PRICE_START_FORMAT + menu.getPrice() + PRICE_END_FORMAT);
             }
         }
@@ -63,7 +63,7 @@ public class MenuOutputView {
         System.out.println(DISH_START_FORMAT + DESSERT + DISH_END_FORMAT);
         for (EntireMenu menu : EntireMenu.values()) {
             if (menu.getCourse() == Course.DESSERT) {
-                System.out.println(
+                System.out.print(
                     menu.getName() + PRICE_START_FORMAT + menu.getPrice() + PRICE_END_FORMAT);
             }
         }
@@ -74,7 +74,7 @@ public class MenuOutputView {
         System.out.println(DISH_START_FORMAT + BEVERAGE + DISH_END_FORMAT);
         for (EntireMenu menu : EntireMenu.values()) {
             if (menu.getCourse() == Course.BEVERAGE) {
-                System.out.println(
+                System.out.print(
                     menu.getName() + PRICE_START_FORMAT + menu.getPrice() + PRICE_END_FORMAT);
             }
         }

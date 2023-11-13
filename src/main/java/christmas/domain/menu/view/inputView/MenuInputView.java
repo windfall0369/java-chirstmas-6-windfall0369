@@ -4,17 +4,22 @@ import camp.nextstep.edu.missionutils.Console;
 import christmas.domain.menu.model.Course;
 import christmas.domain.menu.model.EntireMenu;
 import christmas.domain.util.message.ErrorMessage;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MenuInputView {
+
     private static final String PAIR_DELIMITER = "-";
     private static final String SPLIT_DELIMITER = ",";
     private static final int MENU_NAME_INDEX = 0;
     private static final int MENU_AMOUNT_INDEX = 1;
     private static final int INDEX_START = 0;
+    private static final int MINIMUM_AMOUNT = 1;
+    private static final int MAXIMUM_AMOUNT = 20;
+
 
     public Map<EntireMenu, Integer> getUserMenu() {
         while (true) {
@@ -30,7 +35,8 @@ public class MenuInputView {
     private Map<EntireMenu, Integer> validateMenuInput(String userInput) {
         checkPaired(userInput);
         int menuType = checkSplit(userInput);
-        Map<EntireMenu, Integer> userMenu = menuOrderSheet(userInput, menuType);
+        List<String> menuSplit = Arrays.asList(userInput.split(SPLIT_DELIMITER));
+        Map<EntireMenu, Integer> userMenu = menuOrderSheet(menuSplit, menuType);
         checkMenuOrderSheet(userMenu);
         return userMenu;
     }
@@ -51,16 +57,16 @@ public class MenuInputView {
         return menuType;
     }
 
-    private Map<EntireMenu, Integer> menuOrderSheet(String userInput, int menuType) {
-        Map<EntireMenu, Integer> menuOrderSheet = new LinkedHashMap<>();
-        List<String> menuSplit = checkOnlyBeverage(Arrays.asList(userInput.split(SPLIT_DELIMITER)));
+    private Map<EntireMenu, Integer> menuOrderSheet(List<String> menuSplit, int menuType) {
+        Map<EntireMenu, Integer> menuOrderSheet = new HashMap<>();
 
         try {
+            checkOnlyBeverage(menuSplit);
             for (int index = INDEX_START; index < menuType; index++) {
-                List<String> menuPair = Arrays.asList(menuSplit.get(index).split(PAIR_DELIMITER));
+                List<String> menuPair = List.of(menuSplit.get(index).split(PAIR_DELIMITER));
                 EntireMenu menuName = checkMenuName(menuPair.get(MENU_NAME_INDEX));
                 Integer menuAmount = checkMenuAmount(
-                    Integer.valueOf(menuPair.get(MENU_AMOUNT_INDEX)));
+                    Integer.parseInt(menuPair.get(MENU_AMOUNT_INDEX)));
                 menuOrderSheet.put(menuName, menuAmount);
             }
             return menuOrderSheet;
@@ -79,25 +85,36 @@ public class MenuInputView {
         }
     }
 
-    private List<String> checkOnlyBeverage(List<String> menuSplit) {
-        try {
-            if (menuSplit.size() == 2) {
-                checkBeverage(menuSplit);
+    private void checkOnlyBeverage(List<String> menuSplit) {
+        List<String> menuNameOnly = new ArrayList<>();
+        int count = 0;
+
+        for (int index = INDEX_START; index < menuSplit.size(); index++) {
+            String[] split = menuSplit.get(index).split("-");
+            menuNameOnly.add(split[MENU_NAME_INDEX]);
+        }
+        for (int index = INDEX_START; index < menuNameOnly.size(); index++) {
+            if (checkBeverage(menuNameOnly.get(index))) {
+                count++;
             }
-        } catch (IllegalArgumentException e) {
+        }
+        isOnlyBeverage(count, menuNameOnly);
+    }
+
+    private void isOnlyBeverage(int count, List<String> menuNameOnly) {
+        if (count == menuNameOnly.size()) {
             System.out.println(ErrorMessage.CAN_NOT_ONLY_BEVERAGE.getErrorMessage());
             throw new IllegalArgumentException();
         }
-
-        return menuSplit;
     }
 
-    private void checkBeverage(List<String> menuSplit) {
+    private boolean checkBeverage(String menuName) {
         for (EntireMenu menu : EntireMenu.values()) {
-            if (menuSplit.get(0).equals(menu.getName()) && menu.getCourse() == Course.BEVERAGE) {
-                throw new IllegalArgumentException();
+            if (menuName.equals(menu.getName()) && menu.getCourse() == Course.BEVERAGE) {
+                return true;
             }
         }
+        return false;
     }
 
     private EntireMenu checkMenuName(String menuName) {
@@ -112,7 +129,7 @@ public class MenuInputView {
     }
 
     private int checkMenuAmount(Integer menuAmount) {
-        if (menuAmount < 1 || 20 < menuAmount) {
+        if (menuAmount < MINIMUM_AMOUNT || 20 < MAXIMUM_AMOUNT) {
             throw new IllegalArgumentException();
         }
         return menuAmount;

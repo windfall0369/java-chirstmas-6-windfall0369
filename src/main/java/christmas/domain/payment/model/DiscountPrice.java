@@ -1,68 +1,55 @@
-package christmas.domain.discount.service;
+package christmas.domain.payment.model;
 
-import christmas.domain.event.model.EventChecker;
-import christmas.domain.event.model.SpecialDiscount;
-import christmas.domain.event.model.SpecialMenuGift;
-import christmas.domain.event.model.WeekDiscount;
+import christmas.domain.event.domain.EventChecker;
+import christmas.domain.event.domain.SpecialDiscount;
+import christmas.domain.event.domain.SpecialMenuGift;
+import christmas.domain.event.domain.WeekDiscount;
 import christmas.domain.menu.model.Course;
 import christmas.domain.menu.model.EntireMenu;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class DiscountService {
+public class DiscountPrice {
 
     private static final int SPECIAL_MENU_GIFT_PRICE = 25_000;
-    private static final int NOT_SPECIAL_MENU_SERVED = 0;
     private static final int D_DAY_DISCOUNT_PRICE_DEFAULT = 1_000;
     private static final int D_DAY_DISCOUNT_PRICE_PER_DAY = 100;
     private static final int SPECIAL_DISCOUNT = 1_000;
-    private static final int NOT_SPECIAL_DISCOUNT = 0;
     private static final int NOT_EVENT_PARTICIPATED = 0;
     private static final int DEFAULT_DISCOUNT_PRICE = 0;
     private static final int WEEK_DISCOUNT_PRICE = 2_023;
 
-    public List<Integer> calculateDiscountPrice(Map<EntireMenu, Integer> userMenu,
-        EventChecker events) {
-        List<Integer> discountPrice = new ArrayList<>();
-        int dDayDiscountPrice = calculateDdayDiscount(events);
-        int weekDiscountPrice = calculateWeekDiscount(userMenu, events);
-        int specialDiscountPrice = calculateSpecialDiscount(events);
-        int specialMenuGiftPrice = calculateSpecialMenuGiftPrice(events);
+    private final Map<DiscountPolicy, Integer> discountPrice = new HashMap<>();
 
-        discountPrice.add(dDayDiscountPrice);
-        discountPrice.add(weekDiscountPrice);
-        discountPrice.add(specialDiscountPrice);
-        discountPrice.add(specialMenuGiftPrice);
-
-        //디데이 할인, 평일-주말 할인, 특별 할인, 증정 이벤트 순서
+    public Map<DiscountPolicy, Integer> getDiscountPrice() {
         return discountPrice;
     }
 
-    private int calculateDdayDiscount(EventChecker events) {
+    public void calculateDdayDiscount(EventChecker events) {
         if (events.getWeekDiscount().equals(WeekDiscount.NOT_PARTICIPATED)) {
-            return NOT_SPECIAL_DISCOUNT;
+            return;
         }
         int dDayDiscountPrice = D_DAY_DISCOUNT_PRICE_DEFAULT;
         dDayDiscountPrice += D_DAY_DISCOUNT_PRICE_PER_DAY * events.getdDayDiscount();
 
-        return dDayDiscountPrice;
+        discountPrice.put(DiscountPolicy.DDAY, dDayDiscountPrice);
     }
 
-    private int calculateWeekDiscount(Map<EntireMenu, Integer> userMenu, EventChecker events) {
+    public void calculateWeekDiscount(Map<EntireMenu, Integer> userMenu, EventChecker events) {
         int weekDiscount = NOT_EVENT_PARTICIPATED;
         if (events.getWeekDiscount().equals(WeekDiscount.NOT_PARTICIPATED)) {
-            return weekDiscount;
+            return;
         }
         if (events.getWeekDiscount().equals(WeekDiscount.WEEKDAY)) {
             weekDiscount = calculateWeekdayDiscount(userMenu);
+            discountPrice.put(DiscountPolicy.WEEKDAY, weekDiscount);
+            return;
         }
         if (events.getWeekDiscount().equals(WeekDiscount.WEEKEND)) {
             weekDiscount = calculateWeekendDiscount(userMenu);
+            discountPrice.put(DiscountPolicy.WEEKEND, weekDiscount);
         }
-
-        return weekDiscount;
     }
 
     private int calculateWeekdayDiscount(Map<EntireMenu, Integer> userMenu) {
@@ -87,17 +74,15 @@ public class DiscountService {
         return weekendDiscount;
     }
 
-    private int calculateSpecialDiscount(EventChecker events) {
+    public void calculateSpecialDiscount(EventChecker events) {
         if (events.getSpecialDiscount().equals(SpecialDiscount.PARTICIPATED)) {
-            return SPECIAL_DISCOUNT;
+            discountPrice.put(DiscountPolicy.SPECIAL, SPECIAL_DISCOUNT);
         }
-        return NOT_SPECIAL_DISCOUNT;
     }
 
-    private int calculateSpecialMenuGiftPrice(EventChecker events) {
+    public void calculateSpecialMenuGiftPrice(EventChecker events) {
         if (events.getSpecialMenuGift().equals(SpecialMenuGift.PARTICIPATED)) {
-            return SPECIAL_MENU_GIFT_PRICE;
+            discountPrice.put(DiscountPolicy.EVENT_GIFT, SPECIAL_MENU_GIFT_PRICE);
         }
-        return NOT_SPECIAL_MENU_SERVED;
     }
 }

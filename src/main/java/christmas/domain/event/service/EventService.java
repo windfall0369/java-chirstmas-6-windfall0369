@@ -1,11 +1,11 @@
 package christmas.domain.event.service;
 
-import christmas.domain.event.model.EventChecker;
-import christmas.domain.event.model.SpecialDiscount;
-import christmas.domain.event.model.SpecialMenuGift;
-import christmas.domain.event.model.WeekDiscount;
+import christmas.domain.event.domain.Badge;
+import christmas.domain.event.domain.EventChecker;
+import christmas.domain.event.domain.SpecialDiscount;
+import christmas.domain.event.domain.SpecialMenuGift;
+import christmas.domain.event.domain.WeekDiscount;
 import christmas.domain.util.Calender;
-import java.util.List;
 
 public class EventService {
 
@@ -82,16 +82,17 @@ public class EventService {
         return false;
     }
 
-    public int calculateSumOfEventDiscountPrice(List<Integer> discountPrice,
-        WeekDiscount weekDiscount) {
-        int sumOfEventDiscountPrice = 0;
+    public Badge checkBadge(int eventDiscountPrice) {
+        if (eventDiscountPrice >= Badge.SANTA.getTotalDiscountPrice()) {
+            return Badge.SANTA;
+        }
+        if (eventDiscountPrice >= Badge.TREE.getTotalDiscountPrice()) {
+            return Badge.TREE;
+        }
+        if (eventDiscountPrice >= Badge.STAR.getTotalDiscountPrice()) {
+            return Badge.STAR;
+        }
 
-        if (weekDiscount.equals(WeekDiscount.NOT_PARTICIPATED)) {
-            return sumOfEventDiscountPrice;
-        }
-        for (Integer discount : discountPrice) {
-            sumOfEventDiscountPrice += discount;
-        }
-        return sumOfEventDiscountPrice;
+        return Badge.NOTHING;
     }
 }
