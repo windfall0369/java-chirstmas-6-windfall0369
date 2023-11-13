@@ -1,7 +1,6 @@
 package christmas.domain.menu.model;
 
 public enum EntireMenu {
-
     MUSHROOM_SOUP(Course.APPETIZER, "양송이수프", 6_000),
     TAPAS(Course.APPETIZER, "타파스", 5_500),
     CAESAR_SALAD(Course.APPETIZER, "시저샐러드", 8_000),

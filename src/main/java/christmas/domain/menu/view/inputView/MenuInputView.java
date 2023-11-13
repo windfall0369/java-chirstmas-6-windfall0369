@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 public class MenuInputView {
-
     private static final String PAIR_DELIMITER = "-";
     private static final String SPLIT_DELIMITER = ",";
     private static final int MENU_NAME_INDEX = 0;
@@ -100,7 +99,6 @@ public class MenuInputView {
             }
         }
     }
-
 
     private String isMenuName(String menuName) {
         if (checkMenuName(menuName)) {
