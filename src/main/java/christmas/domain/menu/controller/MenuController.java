@@ -3,6 +3,7 @@ package christmas.domain.menu.controller;
 import christmas.domain.menu.model.EntireMenu;
 import christmas.domain.menu.view.inputView.MenuInputView;
 import christmas.domain.menu.view.outputView.MenuOutputView;
+import christmas.domain.reservation.model.ReservationDto;
 import java.util.Map;
 
 public class MenuController {
@@ -15,7 +16,10 @@ public class MenuController {
         return inputView.getUserMenu();
     }
 
-    public void showMenu(Map<EntireMenu, Integer> userMenu, int reservationDate) {
+    public void showMenu(ReservationDto reservationDto) {
+        Map<EntireMenu, Integer> userMenu = reservationDto.getUserMenu();
+        int reservationDate = reservationDto.getReservationDate();
+
         outputView.printUserMenu(userMenu, reservationDate);
     }
 }

@@ -1,31 +1,24 @@
 package christmas;
 
-import christmas.domain.event.domain.EventChecker;
-import christmas.domain.evnetPlanner.controller.EventPlannerController;
-import christmas.domain.menu.model.EntireMenu;
-import christmas.domain.payment.controller.PaymentController;
 import christmas.domain.reservation.controller.ReservationController;
-import java.util.Map;
+import christmas.domain.reservation.model.ReservationDto;
 
 public class Application {
+
+    public static ReservationDto reservationDto;
+
     public static void main(String[] args) {
         ReservationController reservationController = new ReservationController();
-        PaymentController paymentController = new PaymentController();
-        EventPlannerController eventPlannerController = new EventPlannerController();
 
-        int reservationDate = reservationController.chooseReservationDate(); //고객 예상 방문 날짜
+        reservationDto = reservationController.chooseReservationDate();//고객 예상 방문 날짜
 
-        Map<EntireMenu, Integer> userMenu = eventPlannerController.makeReservationMenu(
-            reservationDate);
-        int orderPrice = paymentController.getOrderPrice(userMenu); // 할인 전 총 주문 가격
+        reservationDto = reservationController.makeReservationMenu(reservationDto);
+        reservationDto = reservationController.getReservationOrderPrice(reservationDto);
+        reservationDto = reservationController.getDiscountList(reservationDto);
+        reservationDto = reservationController.getReservationDiscountPrice(reservationDto);
+        reservationDto = reservationController.getReservationResult(reservationDto);
 
-        EventChecker events = eventPlannerController.getDiscountList(userMenu, reservationDate,
-            orderPrice);
-        int eventDiscountPrice = eventPlannerController.getReservationDiscountPrice(userMenu,
-            reservationDate, events);
+        //reservation을 만들어서 여기에 값 추가하고 토스
 
-        eventPlannerController.getReservationResult(eventDiscountPrice, events, orderPrice);
-
-        //영수증 만들기
     }
 }

@@ -8,6 +8,7 @@ import christmas.domain.payment.model.Payment;
 import christmas.domain.payment.service.DiscountPriceService;
 import christmas.domain.payment.service.PaymentService;
 import christmas.domain.payment.view.outputView.PaymentOutputView;
+import christmas.domain.reservation.model.ReservationDto;
 import java.util.Map;
 
 public class PaymentController {
@@ -17,8 +18,8 @@ public class PaymentController {
     private final PaymentService paymentService = new PaymentService();
     private final DiscountPriceService discountService = new DiscountPriceService();
 
-    public int getOrderPrice(Map<EntireMenu, Integer> userMenu) {
-        int orderPrice = paymentService.calculateOrderPrice(userMenu);
+    public int getOrderPrice(ReservationDto reservationDto) {
+        int orderPrice = paymentService.calculateOrderPrice(reservationDto);
         payment.setOrderPrice(orderPrice); //할인 전 총주문
         outputView.printOrderPrice(orderPrice);
         return orderPrice;
@@ -29,8 +30,9 @@ public class PaymentController {
         return discountService.calculateDiscountPrice(userMenu, events);
     }
 
-    public int getTotalPrice(int eventDiscountPrice, EventChecker events, int orderPrice) {
-        int totalPrice = paymentService.calculateTotalPrice(eventDiscountPrice, events, orderPrice);
+    public int getTotalPrice(ReservationDto reservationDto) {
+
+        int totalPrice = paymentService.calculateTotalPrice(reservationDto);
         payment.setTotalPrice(totalPrice);
         outputView.printTotalPrice(totalPrice);
         return totalPrice;
