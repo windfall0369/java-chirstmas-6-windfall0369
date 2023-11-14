@@ -34,8 +34,8 @@ public class ReservationController {
     public ReservationDto makeReservationMenu(ReservationDto reservationDto) {
         Map<EntireMenu, Integer> userMenu = menuController.chooseMenu(); //고객 주문 메뉴
 
-        menuController.showMenu(reservationDto);
         reservationDto.setUserMenu(userMenu);
+        menuController.showMenu(reservationDto);
 
         return reservationDto;
     }
@@ -59,7 +59,7 @@ public class ReservationController {
     public ReservationDto getReservationDiscountPrice(ReservationDto reservationDto) {
         Map<EntireMenu, Integer> userMenu = reservationDto.getUserMenu();
         EventChecker events = reservationDto.getEvents();
-        DiscountPrice discountPrice = paymentController.getDiscountPrice(userMenu, events);
+        DiscountPrice discountPrice = paymentController.getDiscountPrice(reservationDto);
         int eventDiscountPrice = paymentController.getEventDiscount(discountPrice,
             events.getWeekDiscount());//총혜택 금액 출력
 

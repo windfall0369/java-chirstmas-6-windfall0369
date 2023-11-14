@@ -1,15 +1,12 @@
 package christmas.domain.payment.controller;
 
-import christmas.domain.event.domain.EventChecker;
 import christmas.domain.event.domain.WeekDiscount;
-import christmas.domain.menu.model.EntireMenu;
 import christmas.domain.payment.model.DiscountPrice;
 import christmas.domain.payment.model.Payment;
 import christmas.domain.payment.service.DiscountPriceService;
 import christmas.domain.payment.service.PaymentService;
 import christmas.domain.payment.view.outputView.PaymentOutputView;
 import christmas.domain.reservation.model.ReservationDto;
-import java.util.Map;
 
 public class PaymentController {
 
@@ -25,9 +22,9 @@ public class PaymentController {
         return orderPrice;
     }
 
-    public DiscountPrice getDiscountPrice(Map<EntireMenu, Integer> userMenu, EventChecker events) {
+    public DiscountPrice getDiscountPrice(ReservationDto reservationDto) {
 
-        return discountService.calculateDiscountPrice(userMenu, events);
+        return discountService.calculateDiscountPrice(reservationDto);
     }
 
     public int getTotalPrice(ReservationDto reservationDto) {

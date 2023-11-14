@@ -6,6 +6,7 @@ import christmas.domain.event.domain.SpecialMenuGift;
 import christmas.domain.event.domain.WeekDiscount;
 import christmas.domain.menu.model.Course;
 import christmas.domain.menu.model.EntireMenu;
+import christmas.domain.reservation.model.ReservationDto;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -26,7 +27,9 @@ public class DiscountPrice {
         return discountPrice;
     }
 
-    public void calculateDdayDiscount(EventChecker events) {
+    public void calculateDdayDiscount(ReservationDto reservationDto) {
+        EventChecker events = reservationDto.getEvents();
+
         if (events.getWeekDiscount().equals(WeekDiscount.NOT_PARTICIPATED)) {
             return;
         }
@@ -36,8 +39,11 @@ public class DiscountPrice {
         discountPrice.put(DiscountPolicy.DDAY, dDayDiscountPrice);
     }
 
-    public void calculateWeekDiscount(Map<EntireMenu, Integer> userMenu, EventChecker events) {
+    public void calculateWeekDiscount(ReservationDto reservationDto) {
+        EventChecker events = reservationDto.getEvents();
+        Map<EntireMenu, Integer> userMenu = reservationDto.getUserMenu();
         int weekDiscount = NOT_EVENT_PARTICIPATED;
+
         if (events.getWeekDiscount().equals(WeekDiscount.NOT_PARTICIPATED)) {
             return;
         }
@@ -74,13 +80,17 @@ public class DiscountPrice {
         return weekendDiscount;
     }
 
-    public void calculateSpecialDiscount(EventChecker events) {
+    public void calculateSpecialDiscount(ReservationDto reservationDto) {
+        EventChecker events = reservationDto.getEvents();
+
         if (events.getSpecialDiscount().equals(SpecialDiscount.PARTICIPATED)) {
             discountPrice.put(DiscountPolicy.SPECIAL, SPECIAL_DISCOUNT);
         }
     }
 
-    public void calculateSpecialMenuGiftPrice(EventChecker events) {
+    public void calculateSpecialMenuGiftPrice(ReservationDto reservationDto) {
+        EventChecker events = reservationDto.getEvents();
+
         if (events.getSpecialMenuGift().equals(SpecialMenuGift.PARTICIPATED)) {
             discountPrice.put(DiscountPolicy.EVENT_GIFT, SPECIAL_MENU_GIFT_PRICE);
         }

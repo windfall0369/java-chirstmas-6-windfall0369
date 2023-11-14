@@ -1,20 +1,17 @@
 package christmas.domain.payment.service;
 
-import christmas.domain.event.domain.EventChecker;
 import christmas.domain.event.domain.WeekDiscount;
-import christmas.domain.menu.model.EntireMenu;
 import christmas.domain.payment.model.DiscountPrice;
-import java.util.Map;
+import christmas.domain.reservation.model.ReservationDto;
 
 public class DiscountPriceService {
 
-    public DiscountPrice calculateDiscountPrice(Map<EntireMenu, Integer> userMenu,
-        EventChecker events) {
+    public DiscountPrice calculateDiscountPrice(ReservationDto reservationDto) {
         DiscountPrice discountPrice = new DiscountPrice();
-        discountPrice.calculateDdayDiscount(events);
-        discountPrice.calculateWeekDiscount(userMenu, events);
-        discountPrice.calculateSpecialDiscount(events);
-        discountPrice.calculateSpecialMenuGiftPrice(events);
+        discountPrice.calculateDdayDiscount(reservationDto);
+        discountPrice.calculateWeekDiscount(reservationDto);
+        discountPrice.calculateSpecialDiscount(reservationDto);
+        discountPrice.calculateSpecialMenuGiftPrice(reservationDto);
 
         return discountPrice;
     }
