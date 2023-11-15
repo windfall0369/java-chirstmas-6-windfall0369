@@ -8,13 +8,14 @@ import java.util.Map;
 public class Receipt {
 
     private final int reservationDate;
-    private final int orderPrice; //할인 전 총주문 금액
+    private final int orderPrice;
     private final EventChecker events;
-    private final int totalDiscountPrice; //총 혜택 금액 = weekDiscountPrice + dDayDiscountPrice + eventMenuPrice + specialDiscount;
+    private final int totalDiscountPrice;
     private final int eventMenuPrice;
-    private final int eventDiscountPrice;//할인 금액 =weekDiscountPrice + dDayDiscountPrice + specialDiscount;
-    private final int totalPrice; //할인 후 예상 결제 금액 = orderPrice - eventDiscount;
+    private final int eventDiscountPrice;
+    private final int totalPrice;
     private final Map<EntireMenu, Integer> userMenu;
+    private final Map<DiscountPolicy, Integer> discountPrice;
 
     public Receipt(ReservationDto reservationDto, Map<DiscountPolicy, Integer> discountPrice) {
         this.reservationDate = reservationDto.getReservationDate();
@@ -22,9 +23,14 @@ public class Receipt {
         this.orderPrice = reservationDto.getOrderPrice();
         this.events = reservationDto.getEvents();
         this.totalDiscountPrice = reservationDto.getEventDiscountPrice();
+        this.discountPrice = discountPrice;
         this.eventMenuPrice = discountPrice.get(DiscountPolicy.EVENT_GIFT);
         this.eventDiscountPrice = totalDiscountPrice - eventMenuPrice;
         this.totalPrice = orderPrice - eventDiscountPrice;
+    }
+
+    public Map<DiscountPolicy, Integer> getDiscountPrice() {
+        return discountPrice;
     }
 
     public int getReservationDate() {

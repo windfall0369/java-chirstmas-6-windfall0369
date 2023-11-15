@@ -2,12 +2,19 @@ package christmas.domain.payment.model;
 
 public class Payment {
 
-    private int orderPrice; //할인 전 총주문 금액
-    private int totalDiscountPrice; //총 혜택 금액 = weekDiscountPrice + dDayDiscountPrice + eventMenuPrice + specialDiscount;
-    private int eventDiscountPrice;//할인 금액 =weekDiscountPrice + dDayDiscountPrice + specialDiscount;
-    private int totalPrice; //할인 후 예상 결제 금액 = orderPrice - eventDiscount;
+    private final int orderPrice;
+    private final int totalDiscountPrice;
+    private final int eventDiscountPrice;
+    private final int totalPrice;
 
     public PaymentDto createDto() {
         return new PaymentDto();
+    }
+
+    public Payment(PaymentDto paymentDto) {
+        this.orderPrice = paymentDto.getOrderPrice();
+        this.totalDiscountPrice = paymentDto.getTotalDiscountPrice();
+        this.eventDiscountPrice = paymentDto.getEventDiscountPrice();
+        this.totalPrice = paymentDto.getTotalPrice();
     }
 }

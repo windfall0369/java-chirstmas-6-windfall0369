@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 public class DiscountPrice {
 
     private static final int SPECIAL_MENU_GIFT_PRICE = 25_000;
+    private static final int NO_SPECIAL_MENU_GIFT = 0;
     private static final int D_DAY_DISCOUNT_PRICE_DEFAULT = 1_000;
     private static final int D_DAY_DISCOUNT_PRICE_PER_DAY = 100;
     private static final int SPECIAL_DISCOUNT = 1_000;
@@ -27,6 +28,7 @@ public class DiscountPrice {
     public Map<DiscountPolicy, Integer> getDiscountPrice() {
         return discountPrice;
     }
+
 
     public void calculateDdayDiscount(ReservationDto reservationDto) {
         EventChecker events = reservationDto.getEvents();
@@ -94,6 +96,8 @@ public class DiscountPrice {
 
         if (events.getSpecialMenuGift().equals(SpecialMenuGift.PARTICIPATED)) {
             discountPrice.put(DiscountPolicy.EVENT_GIFT, SPECIAL_MENU_GIFT_PRICE);
+            return;
         }
+        discountPrice.put(DiscountPolicy.EVENT_GIFT, NO_SPECIAL_MENU_GIFT);
     }
 }

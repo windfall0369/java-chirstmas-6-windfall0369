@@ -8,7 +8,9 @@ import christmas.domain.menu.model.EntireMenu;
 import christmas.domain.payment.controller.PaymentController;
 import christmas.domain.payment.model.DiscountPrice;
 import christmas.domain.payment.model.Receipt;
+import christmas.domain.reservation.model.Reservation;
 import christmas.domain.reservation.model.ReservationDto;
+import christmas.domain.reservation.model.ReservationRepository;
 import christmas.domain.reservation.view.inputView.ReservationInputView;
 import christmas.domain.reservation.view.outputView.ReservationOutputView;
 import java.util.Map;
@@ -21,6 +23,7 @@ public class ReservationController {
     private final EventController eventController = new EventController();
     private final MenuController menuController = new MenuController();
     private final ReservationDto reservationDto = new ReservationDto();
+    private final ReservationRepository reservationRepository = new ReservationRepository();
 
     public void chooseReservationDate() {
         outputView.printRequestVisitDate();
@@ -52,24 +55,28 @@ public class ReservationController {
         EventChecker events = this.reservationDto.getEvents();
         DiscountPrice discountPrice = paymentController.getDiscountPrice(this.reservationDto);
         int eventDiscountPrice = paymentController.getEventDiscount(discountPrice,
-            events.getWeekDiscount());//총혜택 금액 출력
+            events.getWeekDiscount());
 
         this.reservationDto.setEventDiscountPrice(eventDiscountPrice);
     }
 
-    public ReservationDto getReservationResult() {
+    public Reservation getReservationResult() {
         int totalPrice = paymentController.getTotalPrice(this.reservationDto);
 
         this.reservationDto.setTotalPrice(totalPrice);
         Badge eventBadge = eventController.getEventBadge(this.reservationDto);
         reservationDto.setEventBadge(eventBadge);
 
-        return reservationDto;
+        return new Reservation(reservationDto);
     }
 
     public Receipt getReservationReceipt() {
         DiscountPrice discountPrice = paymentController.getDiscountPrice(this.reservationDto);
 
         return paymentController.getReceipt(this.reservationDto, discountPrice);
+    }
+
+    public void addReservationInRepository(Reservation reservation, Receipt receipt) {
+        reservationRepository.addReservation(reservation, receipt);
     }
 }

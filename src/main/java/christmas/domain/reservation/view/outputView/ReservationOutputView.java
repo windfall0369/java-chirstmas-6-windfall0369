@@ -9,5 +9,4 @@ public class ReservationOutputView {
         System.out.println(WELCOME_MESSAGE);
         System.out.println(VISIT_DATE_MESSAGE);
     }
-
 }

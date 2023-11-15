@@ -27,6 +27,6 @@ public class EventOutputView {
     public void printEventBadge(Badge eventBadge) {
         System.out.println(NEXT_LINE_MARK);
         System.out.println(START_FORMAT + EVENT_BADGE + END_FORMAT);
-        System.out.print(eventBadge.getBadgeName());
+        System.out.println(eventBadge.getBadgeName());
     }
 }
