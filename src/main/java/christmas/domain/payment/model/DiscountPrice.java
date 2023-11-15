@@ -22,6 +22,7 @@ public class DiscountPrice {
     private static final int WEEK_DISCOUNT_PRICE = 2_023;
 
     private final Map<DiscountPolicy, Integer> discountPrice = new HashMap<>();
+    //할인 종류 - 할인 가격
 
     public Map<DiscountPolicy, Integer> getDiscountPrice() {
         return discountPrice;

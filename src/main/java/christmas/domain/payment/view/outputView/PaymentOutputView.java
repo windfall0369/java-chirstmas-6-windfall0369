@@ -3,6 +3,7 @@ package christmas.domain.payment.view.outputView;
 import christmas.domain.event.domain.WeekDiscount;
 import christmas.domain.payment.model.DiscountPolicy;
 import christmas.domain.payment.model.DiscountPrice;
+import christmas.domain.payment.model.Receipt;
 
 public class PaymentOutputView {
 
@@ -78,5 +79,9 @@ public class PaymentOutputView {
         System.out.print(NEXT_LINE_MARK);
         System.out.println(START_FORMAT + TOTAL_PRICE + END_FORMAT);
         System.out.printf(PRICE_FORMAT, totalPrice);
+    }
+
+    public void printReceipt(Receipt receipt) {
+
     }
 }
