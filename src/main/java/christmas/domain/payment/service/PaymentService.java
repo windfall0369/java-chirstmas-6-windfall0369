@@ -32,5 +32,4 @@ public class PaymentService {
         totalPrice = orderPrice - eventDiscountPrice;
         return totalPrice;
     }
-
 }

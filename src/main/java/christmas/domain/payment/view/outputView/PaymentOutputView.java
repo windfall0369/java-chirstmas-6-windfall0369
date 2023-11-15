@@ -27,6 +27,7 @@ public class PaymentOutputView {
     private static final String DISCOUNT_UNIT = "원";
     private static final String PRICE_FORMAT = "%,d원";
     private static final String D_DAY_DISCOUNT_PRICE = "디데이 할인 ";
+    public static final String TOTAL_DISCOUNT = "총혜택 금액";
     private static final String TOTAL_DISCOUNT_PRICE = "총혜택 금액     - ";
     private static final String SPECIAL_MENU_PRICE = "증정 메뉴      - ";
     private static final String TOTAL_PRICE = "할인 후 예상 결제 금액";
@@ -82,7 +83,7 @@ public class PaymentOutputView {
 
     public void printAllEventDiscountPrice(int sumOfEventDiscountPrice) {
         System.out.print(NEXT_LINE_MARK);
-        System.out.println(START_FORMAT + TOTAL_DISCOUNT_PRICE + END_FORMAT);
+        System.out.println(START_FORMAT + TOTAL_DISCOUNT + END_FORMAT);
         System.out.printf(PRICE_FORMAT, sumOfEventDiscountPrice);
         System.out.print(NEXT_LINE_MARK);
     }

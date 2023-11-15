@@ -7,10 +7,6 @@ public class Payment {
     private final int eventDiscountPrice;
     private final int totalPrice;
 
-    public PaymentDto createDto() {
-        return new PaymentDto();
-    }
-
     public Payment(PaymentDto paymentDto) {
         this.orderPrice = paymentDto.getOrderPrice();
         this.totalDiscountPrice = paymentDto.getTotalDiscountPrice();

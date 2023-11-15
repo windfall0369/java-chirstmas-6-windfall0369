@@ -15,7 +15,6 @@ public class Reservation {
     private final Badge eventBadge;
     private final int totalPrice;
 
-
     public Reservation(ReservationDto reservationDto) {
         this.reservationDate = reservationDto.getReservationDate();
         this.userMenu = reservationDto.getUserMenu();

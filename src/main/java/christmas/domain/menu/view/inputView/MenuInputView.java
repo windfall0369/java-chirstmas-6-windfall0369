@@ -89,12 +89,12 @@ public class MenuInputView {
         List<String> menuNameOnly = new ArrayList<>();
         int count = 0;
 
-        for (int index = INDEX_START; index < menuSplit.size(); index++) {
-            String[] split = menuSplit.get(index).split("-");
+        for (String string : menuSplit) {
+            String[] split = string.split(PAIR_DELIMITER);
             menuNameOnly.add(split[MENU_NAME_INDEX]);
         }
-        for (int index = INDEX_START; index < menuNameOnly.size(); index++) {
-            if (checkBeverage(menuNameOnly.get(index))) {
+        for (String s : menuNameOnly) {
+            if (checkBeverage(s)) {
                 count++;
             }
         }
